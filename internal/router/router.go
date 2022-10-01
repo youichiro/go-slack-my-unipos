@@ -9,7 +9,7 @@ func SetupRouter() *gin.Engine {
 	r := gin.Default()
 	slackHander := handler.SlackHandler{}
 
-	r.GET("/", func(c *gin.Context) { slackHander.Receive(c) })
+	r.POST("/", func(c *gin.Context) { slackHander.Receive(c) })
 
 	return r
 }

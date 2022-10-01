@@ -1,13 +1,21 @@
 package main
 
 import (
+	"log"
+
+	"github.com/joho/godotenv"
 	"github.com/youichiro/go-slack-my-unipos/internal/repositories"
 	"github.com/youichiro/go-slack-my-unipos/internal/router"
 )
 
 func main() {
+	err := godotenv.Load("../.env")
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
 	dbRepo := &repositories.PostgresRepository{}
-	err := dbRepo.Connect()
+	err = dbRepo.Connect()
 	if err != nil {
 		panic(err.Error())
 	}

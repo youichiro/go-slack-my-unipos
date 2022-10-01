@@ -2,7 +2,7 @@ package handler
 
 import (
 	"encoding/json"
-	"path/filepath"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/youichiro/go-slack-my-unipos/internal/repositories"
@@ -21,7 +21,7 @@ func (s SlackHandler) Receive(c *gin.Context) {
 		c.IndentedJSON(500, gin.H{"message": err.Error()})
 	}
 
-	requestTypeObj, err := jsonpointer.Get(payload, "type")
+	requestTypeObj, err := jsonpointer.Get(payload, "/type")
 	if err != nil {
 		c.IndentedJSON(500, gin.H{"message": err.Error()})
 	}
@@ -52,8 +52,8 @@ func (s SlackHandler) Receive(c *gin.Context) {
 func SlackOpenCardForm(c *gin.Context, payload interface{}) error {
 	go func() {
 		slackRepo := repositories.SlackRepository{
-			Token:        "",
-			ViewsDirPath: filepath.Join(".", "views"),
+			Token:        os.Getenv("SLACK_TOKEN"),
+			ViewsDirPath: "./config/slack",
 		}
 
 		triggerID, _ := jsonpointer.Get(payload, "/trigger_id")
