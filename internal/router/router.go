@@ -1,11 +1,15 @@
 package router
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"github.com/youichiro/go-slack-my-unipos/internal/handler"
+)
 
 func SetupRouter() *gin.Engine {
 	r := gin.Default()
+	slackHander := handler.SlackHandler{}
 
-	r.GET("/", func(c *gin.Context) { c.IndentedJSON(200, gin.H{"message": "hello world!"}) })
+	r.GET("/", func(c *gin.Context) { slackHander.Receive(c) })
 
 	return r
 }

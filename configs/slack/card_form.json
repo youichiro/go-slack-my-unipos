@@ -1,0 +1,90 @@
+{
+    "callback_id": "unipos__post_card",
+    "title": {
+        "type": "plain_text",
+        "text": "タイトル"
+    },
+    "submit": {
+        "type": "plain_text",
+        "text": "送る"
+    },
+    "blocks": [
+		{
+			"type": "input",
+            "block_id": "members",
+			"element": {
+				"type": "multi_users_select",
+				"placeholder": {
+					"type": "plain_text",
+					"text": "Select users",
+					"emoji": true
+				},
+				"action_id": "multi_users_select-action"
+			},
+			"label": {
+				"type": "plain_text",
+				"text": "誰に送りますか？",
+				"emoji": true
+			}
+		},
+		{
+			"type": "input",
+            "block_id": "point",
+			"element": {
+				"type": "static_select",
+				"placeholder": {
+					"type": "plain_text",
+					"text": "0",
+					"emoji": true
+				},
+				"options": [
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "10",
+							"emoji": true
+						},
+						"value": "value-0"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "20",
+							"emoji": true
+						},
+						"value": "value-1"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "30",
+							"emoji": true
+						},
+						"value": "value-2"
+					}
+				],
+				"action_id": "static_select-action"
+			},
+			"label": {
+				"type": "plain_text",
+				"text": "ポイント",
+				"emoji": true
+			}
+		},
+		{
+			"type": "input",
+            "block_id": "message",
+			"element": {
+				"type": "plain_text_input",
+				"multiline": true,
+				"action_id": "plain_text_input-action"
+			},
+			"label": {
+				"type": "plain_text",
+				"text": "メッセージ",
+				"emoji": true
+			}
+		}
+	],
+    "type": "modal"
+}
