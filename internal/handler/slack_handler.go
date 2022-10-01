@@ -2,6 +2,7 @@ package handler
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -14,6 +15,8 @@ type SlackHandler struct{}
 
 func (s SlackHandler) Receive(c *gin.Context) {
 	payloadJSON := c.Request.FormValue("payload")
+	fmt.Println("payloadJSON:")
+	fmt.Println(payloadJSON)
 
 	var payload interface{}
 	err := json.Unmarshal([]byte(payloadJSON), &payload)
@@ -50,17 +53,19 @@ func (s SlackHandler) Receive(c *gin.Context) {
 }
 
 func CallSlackOpenCardForm(c *gin.Context, payload interface{}) error {
-	slackRepo := repositories.SlackRepository{
-		Token:        os.Getenv("SLACK_TOKEN"),
-		ViewsDirPath: "../configs/slack",
-	}
+	go func() {
+		slackRepo := repositories.SlackRepository{
+			Token:        os.Getenv("SLACK_TOKEN"),
+			ViewsDirPath: "../configs/slack",
+		}
 
-	triggerID, _ := jsonpointer.Get(payload, "/trigger_id")
+		triggerID, _ := jsonpointer.Get(payload, "/trigger_id")
 
-	_, err := slackRepo.OpenModal(triggerID.(string))
-	if err != nil {
-		c.Error(err)
-	}
+		_, err := slackRepo.OpenModal(triggerID.(string))
+		if err != nil {
+			c.Error(err)
+		}
+	}()
 
 	return nil
 }

@@ -21,11 +21,11 @@ func SlackPostJSON(token string, command string, paramJSON string) ([]byte, erro
 
 	body, _ := io.ReadAll(response.Body)
 	fmt.Println("* called SlackPostJSON")
-	fmt.Println("command")
+	fmt.Println("command:")
 	fmt.Println(command)
-	fmt.Println("response.StatusCode")
+	fmt.Println("response.StatusCode:")
 	fmt.Println(response.StatusCode)
-	fmt.Println("body")
+	fmt.Println("body:")
 	fmt.Println(string(body))
 	return body, nil
 }
