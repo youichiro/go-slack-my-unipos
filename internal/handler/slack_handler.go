@@ -41,7 +41,7 @@ func (s SlackHandler) Receive(c *gin.Context) {
 
 	switch callbackID {
 	case "unipos__post_card":
-		err := SlackOpenCardForm(c, payload)
+		err := CallSlackOpenCardForm(c, payload)
 		if err != nil {
 			c.IndentedJSON(500, gin.H{"message": err.Error()})
 		}
@@ -49,7 +49,7 @@ func (s SlackHandler) Receive(c *gin.Context) {
 	}
 }
 
-func SlackOpenCardForm(c *gin.Context, payload interface{}) error {
+func CallSlackOpenCardForm(c *gin.Context, payload interface{}) error {
 	slackRepo := repositories.SlackRepository{
 		Token:        os.Getenv("SLACK_TOKEN"),
 		ViewsDirPath: "../configs/slack",
