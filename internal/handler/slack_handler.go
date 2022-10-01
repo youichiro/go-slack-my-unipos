@@ -2,6 +2,7 @@ package handler
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -39,6 +40,9 @@ func (s SlackHandler) Receive(c *gin.Context) {
 		c.IndentedJSON(400, gin.H{"message": "hoge"})
 	}
 
+	fmt.Println("callbackID")
+	fmt.Println(callbackID)
+
 	switch callbackID {
 	case "unipos__post_card":
 		err := SlackOpenCardForm(c, payload)
@@ -50,18 +54,26 @@ func (s SlackHandler) Receive(c *gin.Context) {
 }
 
 func SlackOpenCardForm(c *gin.Context, payload interface{}) error {
-	go func() {
-		slackRepo := repositories.SlackRepository{
-			Token:        os.Getenv("SLACK_TOKEN"),
-			ViewsDirPath: "./config/slack",
-		}
+	fmt.Println("called SlackOpenCardForm")
 
-		triggerID, _ := jsonpointer.Get(payload, "/trigger_id")
+	token := os.Getenv("SLACK_TOKEN")
+	fmt.Println("SLACK_TOKEN")
+	fmt.Println(token)
 
-		_, err := slackRepo.OpenModal(triggerID.(string))
-		if err != nil {
-			c.Error(err)
-		}
-	}()
+	slackRepo := repositories.SlackRepository{
+		Token:        os.Getenv("SLACK_TOKEN"),
+		ViewsDirPath: "../configs/slack",
+	}
+
+	triggerID, _ := jsonpointer.Get(payload, "/trigger_id")
+
+	fmt.Println("triggerID")
+	fmt.Println(triggerID)
+
+	_, err := slackRepo.OpenModal(triggerID.(string))
+	if err != nil {
+		c.Error(err)
+	}
+
 	return nil
 }
