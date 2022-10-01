@@ -8,7 +8,6 @@ import (
 )
 
 func SlackPostJSON(token string, command string, paramJSON string) ([]byte, error) {
-	fmt.Println("called SlackPostJSON")
 	client := &http.Client{}
 	req, _ := http.NewRequest("POST", "https://slack.com/api/"+command, strings.NewReader(paramJSON))
 	req.Header.Add("Content-type", "application/json")
@@ -20,9 +19,12 @@ func SlackPostJSON(token string, command string, paramJSON string) ([]byte, erro
 	}
 	defer response.Body.Close()
 
+	body, _ := io.ReadAll(response.Body)
+	fmt.Println("* called SlackPostJSON")
+	fmt.Println("command")
+	fmt.Println(command)
 	fmt.Println("response.StatusCode")
 	fmt.Println(response.StatusCode)
-	body, _ := io.ReadAll(response.Body)
 	fmt.Println("body")
 	fmt.Println(string(body))
 	return body, nil

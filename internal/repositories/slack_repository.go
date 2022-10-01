@@ -2,7 +2,6 @@ package repositories
 
 import (
 	"encoding/json"
-	"fmt"
 	"os"
 	"path/filepath"
 
@@ -54,9 +53,6 @@ func (repo *SlackRepository) OpenModal(triggerID string) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	fmt.Println("requestParamsJSON")
-	fmt.Println(string(requestParamsJSON))
 
 	resp, err := gateway.SlackPostJSON(repo.Token, "views.open", string(requestParamsJSON))
 
